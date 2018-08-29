@@ -17,16 +17,7 @@ export solveProblem
 export IpoptProblem
 
 function __init__()
-    use_BinaryProvider && check_deps()
-    # Sets up the library paths so that we can run the ipopt binary from Julia.
-    # TODO: Restructure into a function that wraps the call to the binary and
-    # doesn't leave environment variables changed.
-    julia_libdir = joinpath(dirname(first(filter(x -> contains(x, "libjulia"), Sys.Libdl.dllist()))), "julia")
-    @static if Compat.Sys.isapple()
-        ENV["DYLD_LIBRARY_PATH"] = string(get(ENV, "DYLD_LIBRARY_PATH", ""), ":", julia_libdir)
-    elseif Compat.Sys.islinux()
-        ENV["LD_LIBRARY_PATH"] = string(get(ENV, "LD_LIBRARY_PATH", ""), ":", julia_libdir)
-    end
+
 end
 
 
