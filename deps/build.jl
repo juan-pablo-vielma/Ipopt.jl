@@ -1,7 +1,6 @@
 using BinaryProvider # requires BinaryProvider 0.3.0 or later
 
 dependencies = [
-    "https://github.com/juan-pablo-vielma/ASLBuilder/releases/download/v3.1.0-beta2/build_ASLBuilder.v3.1.0.jl",
     "https://github.com/juan-pablo-vielma/COINBLASBuilder/releases/download/v1.4.6-beta2/build_COINBLASBuilder.v1.4.6.jl",
     "https://github.com/juan-pablo-vielma/COINLapackBuilder/releases/download/v1.5.6-beta/build_COINLapackBuilder.v1.5.6.jl",
     "https://github.com/juan-pablo-vielma/COINMetisBuilder/releases/download/v1.3.5-beta/build_COINMetisBuilder.v1.3.5.jl",
