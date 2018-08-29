@@ -8,7 +8,7 @@ dependencies = [
     "https://github.com/juan-pablo-vielma/COINMumpsBuilder/releases/download/v1.6.0-beta/build_COINMumpsBuilder.v1.6.0.jl"
 ]
 
-for dependency in reverse(dependencies)
+for dependency in dependencies
     download(dependency,basename(dependency))
     evalfile(basename(dependency))
 end
