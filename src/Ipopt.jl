@@ -11,13 +11,25 @@ else
 end
 amplexe = joinpath(dirname(libipopt), "..", "bin", "ipopt")
 
+function amplexefun(arguments::String)
+    proc = spawn(pipeline(
+        `$amplexe $arguments`, stdout=STDOUT))
+    wait(proc)
+    kill(proc)
+    proc.exitcode 
+end
+
 export createProblem, addOption
 export openOutputFile, setProblemScaling, setIntermediateCallback
 export solveProblem
 export IpoptProblem
 
 function __init__()
-
+    julia_libdir = joinpath(dirname(first(filter(x -> occursin("libjulia", x), Compat.Libdl.dllist()))), "julia")
+    julia_bindir = Base.JULIA_HOME
+    ipopt_libdir = dirname(libipopt)
+    pathsep = Compat.Sys.iswindows() ? ';' : ':'
+    new_path = "$(julia_bindir)$(pathsep)$(ENV["PATH"])"
 end
 
 
