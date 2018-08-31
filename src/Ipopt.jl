@@ -11,13 +11,15 @@ else
 end
 
 function amplexefun(arguments::String)
+    status = 0
     withenv(amplexe_env_var => amplexe_env_val) do
         proc = spawn(pipeline(
         `$amplexe $arguments`, stdout=STDOUT))
         wait(proc)
         kill(proc)
+        status = proc.exitcode
     end
-    proc.exitcode 
+    status 
 end
 
 export createProblem, addOption
