@@ -31,7 +31,7 @@ using Compat
 #     if !(Compat.Sys.iswindows() && VERSION >= v"0.7-")
 #         @test success(`$(Ipopt.amplexe) -v`)
 #     end
-     @test amplexefun("-v") == 0
+     @test Ipopt.amplexefun("-v") == 0
 end
 
 @testset "MathProgBase" begin
