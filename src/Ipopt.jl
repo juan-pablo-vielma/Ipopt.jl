@@ -36,7 +36,7 @@ function __init__()
     pathsep = Compat.Sys.iswindows() ? ';' : ':'
     new_path = "$(julia_bindir)$(pathsep)$(ENV["PATH"])"
     @static if Compat.Sys.isapple()
-        global amplexe_env_var = "DYLD_LIBRARY_PATH"
+        amplexe_env_var *= "DYLD_LIBRARY_PATH"
         global amplexe_env_val = "$(julia_libdir)$(pathsep)$(ipopt_libdir)$(pathsep)$(ENV["DYLD_LIBRARY_PATH"])"
     elseif Compat.Sys.islinux()
         global amplexe_env_var = "LD_LIBRARY_PATH"
