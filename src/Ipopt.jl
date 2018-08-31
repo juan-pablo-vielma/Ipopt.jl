@@ -10,8 +10,8 @@ else
     error("Ipopt not properly installed. Please run Pkg.build(\"Ipopt\")")
 end
 amplexe = joinpath(dirname(libipopt), "..", "bin", "ipopt")
-amplexe_env_var = ""
-amplexe_env_val = ""
+const amplexe_env_var = ""
+const amplexe_env_val = ""
 
 function amplexefun(arguments::String)
     withenv(amplexe_env_var => amplexe_env_val) do
@@ -36,14 +36,14 @@ function __init__()
     pathsep = Compat.Sys.iswindows() ? ';' : ':'
     new_path = "$(julia_bindir)$(pathsep)$(ENV["PATH"])"
     @static if Compat.Sys.isapple()
-        Ipopt.amplexe_env_var = "DYLD_LIBRARY_PATH"
-        Ipopt.amplexe_env_val = "$(julia_libdir)$(pathsep)$(ipopt_libdir)$(pathsep)$(ENV["DYLD_LIBRARY_PATH"])"
+        global amplexe_env_var = "DYLD_LIBRARY_PATH"
+        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(ipopt_libdir)$(pathsep)$(ENV["DYLD_LIBRARY_PATH"])"
     elseif Compat.Sys.islinux()
-        Ipopt.amplexe_env_var = "LD_LIBRARY_PATH"
-        Ipopt.amplexe_env_val = "$(julia_libdir)$(pathsep)$(ipopt_libdir)$(pathsep)$(ENV["LD_LIBRARY_PATH"])"
+        global amplexe_env_var = "LD_LIBRARY_PATH"
+        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(ipopt_libdir)$(pathsep)$(ENV["LD_LIBRARY_PATH"])"
     elseif Compat.Sys.iswindows()
-        Ipopt.amplexe_env_var = "PATH"
-        Ipopt.amplexe_env_val = "$(julia_bindir)$(pathsep)$(ipopt_bindir)$(pathsep)$(ENV["PATH"])"
+        global amplexe_env_var = "PATH"
+        global amplexe_env_val = "$(julia_bindir)$(pathsep)$(ipopt_bindir)$(pathsep)$(ENV["PATH"])"
     end
 end
 
