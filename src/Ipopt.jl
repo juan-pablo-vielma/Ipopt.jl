@@ -26,7 +26,6 @@ export solveProblem
 export IpoptProblem
 
 function __init__()
-    global amplexe = joinpath(dirname(libipopt), "..", "bin", "ipopt")
     julia_libdir = joinpath(dirname(first(filter(x -> occursin("libjulia", x), Compat.Libdl.dllist()))), "julia")
     julia_bindir = Base.JULIA_HOME
     ipopt_libdir = dirname(libipopt)
