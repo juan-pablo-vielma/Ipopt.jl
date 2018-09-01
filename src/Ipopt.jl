@@ -11,16 +11,15 @@ else
 end
 
 function amplexefun(arguments::String)
-    status = 0
-    withenv(amplexe_env_var => amplexe_env_val) do
-        proc = spawn(pipeline(
-        `$amplexe $arguments`, stdout=STDOUT))
-        wait(proc)
-        kill(proc)
-        status = proc.exitcode
-    end
-    status 
+    temp_env = copy(ENV)
+    temp_env[amplexe_env_var] = amplexe_env_val
+    temp_dir = abspath(dirname(amplexe))
+    proc = spawn(pipeline(Cmd(`$amplexe $arguments`,env=temp_env,dir=temp_dir), stdout=STDOUT))
+    wait(proc)
+    kill(proc)
+    proc.exitcode
 end
+
 
 export createProblem, addOption
 export openOutputFile, setProblemScaling, setIntermediateCallback
@@ -36,13 +35,13 @@ function __init__()
     new_path = "$(julia_bindir)$(pathsep)$(ENV["PATH"])"
     @static if Compat.Sys.isapple()
         global amplexe_env_var = "DYLD_LIBRARY_PATH"
-        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(ipopt_libdir)$(pathsep)$(ENV["DYLD_LIBRARY_PATH"])"
+        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(pathsep)$(ENV["DYLD_LIBRARY_PATH"])"
     elseif Compat.Sys.islinux()
         global amplexe_env_var = "LD_LIBRARY_PATH"
-        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(ipopt_libdir)$(pathsep)$(ENV["LD_LIBRARY_PATH"])"
+        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(pathsep)$(ENV["LD_LIBRARY_PATH"])"
     elseif Compat.Sys.iswindows()
         global amplexe_env_var = "PATH"
-        global amplexe_env_val = "$(julia_bindir)$(pathsep)$(ipopt_bindir)$(pathsep)$(ENV["PATH"])"
+        global amplexe_env_val = "$(julia_bindir)$(pathsep)$(pathsep)$(ENV["PATH"])"
     end
 end
 
