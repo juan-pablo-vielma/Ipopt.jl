@@ -32,16 +32,15 @@ function __init__()
     ipopt_libdir = dirname(libipopt)
     ipopt_bindir = joinpath(dirname(libipopt), "..", "bin")
     pathsep = Compat.Sys.iswindows() ? ';' : ':'
-    new_path = "$(julia_bindir)$(pathsep)$(ENV["PATH"])"
     @static if Compat.Sys.isapple()
         global amplexe_env_var = "DYLD_LIBRARY_PATH"
-        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(pathsep)$(ENV["DYLD_LIBRARY_PATH"])"
+        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(get(ENV,"DYLD_LIBRARY_PATH",""))"
     elseif Compat.Sys.islinux()
         global amplexe_env_var = "LD_LIBRARY_PATH"
-        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(pathsep)$(ENV["LD_LIBRARY_PATH"])"
+        global amplexe_env_val = "$(julia_libdir)$(pathsep)$(get(ENV,"LD_LIBRARY_PATH",""))"
     elseif Compat.Sys.iswindows()
         global amplexe_env_var = "PATH"
-        global amplexe_env_val = "$(julia_bindir)$(pathsep)$(pathsep)$(ENV["PATH"])"
+        global amplexe_env_val = "$(julia_bindir)$(pathsep)$(get(ENV,"PATH",""))"
     end
 end
 
